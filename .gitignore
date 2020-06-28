@@ -1,0 +1,4 @@
+virtual_env
+flask_session
+.DS_Store
+__pycache__/
