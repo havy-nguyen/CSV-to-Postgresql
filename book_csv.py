@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 # Set up database
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
@@ -27,7 +28,7 @@ class Book(db.Model):
     year = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Book('{self.id}', '{self.title}', '{self.author}', '{self.year}')"
+        return f"Book('{self.id}', '{self.isbn}', '{self.title}', '{self.author}', '{self.year}')"
 
 
 def writeToDatabase():
@@ -37,6 +38,7 @@ def writeToDatabase():
         for isbn, title, author, year in reader:
             database.execute("INSERT INTO book (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
                         {"isbn": isbn, "title": title, "author": author, "year": year}) 
+            print(year)
     database.commit()
     
 
